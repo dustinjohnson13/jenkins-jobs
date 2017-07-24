@@ -1,24 +1,36 @@
 #!groovy
 
+import groovy.json.JsonOutput
+
 stage('Run') {
     node {
 
         def build = "${env.JOB_NAME} - #${env.BUILD_NUMBER}".toString()
+        def notifierEndpoint = "${env.NOTIFIER_ENDPOINT}".toString()
+
+        def email = [to: "${env.EMAIL}", from: "${env.EMAIL}"]
+        def notify = [email: email]
 
         currentBuild.result = "SUCCESS"
 
-        try {
+        def error = null
 
+        try {
             def status = sh(script: 'cat /proc/mdstat', returnStdout: true).trim()
 
-            emailext body: "$status", recipientProviders: [[$class: 'DevelopersRecipientProvider']], subject: "$build succeeded!"
-
+            email.putAll([subject: "$build succeeded!", body: "${status}"])
         } catch (err) {
             currentBuild.result = "FAILURE"
 
-            emailext body: "${env.JOB_NAME} failed! See ${env.BUILD_URL} for details.", recipientProviders: [[$class: 'DevelopersRecipientProvider']], subject: "$build failed!"
+            email.putAll([subject: "$build failed!", body: "${env.JOB_NAME} failed! See ${env.BUILD_URL} for details."])
 
-            throw err
+            error = err
+        }
+
+        sh "curl -X 'POST' $notifierEndpoint -H 'Content-Type: application/json' -d '${JsonOutput.toJson(notify)}'"
+
+        if (error) {
+            throw error
         }
     }
 }
