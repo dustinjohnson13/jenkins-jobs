@@ -6,7 +6,6 @@ stage('Run') {
     node {
 
         def build = "${env.JOB_NAME} - #${env.BUILD_NUMBER}".toString()
-        def notifierEndpoint = "${env.NOTIFIER_ENDPOINT}".toString()
 
         def email = [to: "${env.EMAIL}", from: "${env.EMAIL}"]
         def notify = [email: email]
@@ -27,7 +26,8 @@ stage('Run') {
             error = err
         }
 
-        sh "curl -X 'POST' $notifierEndpoint -H 'Content-Type: application/json' -d '${JsonOutput.toJson(notify)}'"
+        def cmd = env.NOTIFY_COMMAND + " -d '${JsonOutput.toJson(notify)}'"
+        sh cmd
 
         if (error) {
             throw error

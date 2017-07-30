@@ -14,7 +14,11 @@ stage('Run') {
         } catch (err) {
             currentBuild.result = "FAILURE"
 
-            emailext body: "${env.JOB_NAME} failed! See ${env.BUILD_URL} for details.", recipientProviders: [[$class: 'DevelopersRecipientProvider']], subject: "$build failed!"
+            def email = [to: "${env.EMAIL}", from: "${env.EMAIL}", subject: "$build failed!", body: "${env.JOB_NAME} failed! See ${env.BUILD_URL} for details."]
+            def notify = [email: email]
+
+            def cmd = env.NOTIFY_COMMAND + " -d '${JsonOutput.toJson(notify)}'"
+            sh cmd
 
             throw err
         }
