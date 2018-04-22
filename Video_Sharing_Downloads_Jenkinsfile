@@ -1,0 +1,53 @@
+#!groovy
+import groovy.json.JsonOutput
+
+stage('Run') {
+    node {
+        def YOUTUBE = 'https://www.youtube.com'
+        def BASE_DIR = '/data/archives/video/sharing'
+        def DOWNLOAD = 'youtube-dl --ignore-errors --download-archive downloaded.txt'
+
+        def URLS_BY_DIR = [
+                "south_main_auto_repair" : "${YOUTUBE}/channel/UCtAGzm9e_liY7ko1PBhzTHA",
+                "FordTechMakuloco"       : "${YOUTUBE}/channel/UCN467fmgLLlk98JddJLL51w",
+                "briansmobile1"          : "${YOUTUBE}/channel/UCD34eNpI8IfqPFhlOYcLt6Q",
+                "afrotechmods"           : "${YOUTUBE}/user/Afrotechmods",
+                "ukspreadbetting"        : "${YOUTUBE}/user/ukspreadbetting",
+                "demolition_ranch"       : "${YOUTUBE}/user/DemolitionRanch/videos",
+                "iraqveteran8888"        : "${YOUTUBE}/user/Iraqveteran8888/videos",
+                "active_self_protection" : "${YOUTUBE}/channel/UCsE_m2z1NrvF2ImeNWh84mw/videos",
+                "johnnys_reloading_bench": "${YOUTUBE}/channel/UCQ7ZytKrmCQnRp9LXXxinJQ/videos",
+                "military_arms_channel"  : "${YOUTUBE}/user/Sturmgewehre/videos",
+                //'/data/archives/video/education/engineering_explained':'https://www.youtube.com/channel/UClqhvGmHcvWL9w3R48t9QXQ',
+        ]
+
+        currentBuild.result = "SUCCESS"
+
+        try {
+
+
+            URLS_BY_DIR.each { directory, url ->
+                def targetDir = "${BASE_DIR}/${directory}".toString()
+
+                dir(targetDir) {
+                    sh "${DOWNLOAD} -f 'best[height<=720]+bestaudio' '${url}'"
+                    // Now grab any that didn't match the previous command due to format... could do this only if an error occurs
+                    sh "${DOWNLOAD} '${url}'"
+                }
+            }
+        } catch (err) {
+            currentBuild.result = "FAILURE"
+
+            def build = "${env.JOB_NAME} - #${env.BUILD_NUMBER}".toString()
+            def emailAddress = "${env.EMAIL}".toString()
+
+            def email = [to: emailAddress, from: emailAddress, subject: "$build failed!", body: "${env.JOB_NAME} failed! See ${env.BUILD_URL} for details."]
+            def notify = [email: email]
+
+            def cmd = env.NOTIFY_COMMAND + " -d '${JsonOutput.toJson(notify)}'"
+            sh cmd
+
+            throw err
+        }
+    }
+}
