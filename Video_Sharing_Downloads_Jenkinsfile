@@ -8,6 +8,7 @@ stage('Run') {
         def DOWNLOAD = 'youtube-dl --ignore-errors --download-archive downloaded.txt'
 
         def URLS_BY_DIR = [
+                "hickok45"               : "${YOUTUBE}/user/hickok45/videos",
                 "south_main_auto_repair" : "${YOUTUBE}/channel/UCtAGzm9e_liY7ko1PBhzTHA",
                 "FordTechMakuloco"       : "${YOUTUBE}/channel/UCN467fmgLLlk98JddJLL51w",
                 "briansmobile1"          : "${YOUTUBE}/channel/UCD34eNpI8IfqPFhlOYcLt6Q",
@@ -21,18 +22,24 @@ stage('Run') {
                 //'/data/archives/video/education/engineering_explained':'https://www.youtube.com/channel/UClqhvGmHcvWL9w3R48t9QXQ',
         ]
 
+        def EXTRA_OPTIONS = [
+                "hickok45": '--max-downloads 25'
+        ]
+
         currentBuild.result = "SUCCESS"
 
         try {
-
-
             URLS_BY_DIR.each { directory, url ->
                 def targetDir = "${BASE_DIR}/${directory}".toString()
+                def extraOptions = EXTRA_OPTIONS.get(directory, '')
 
                 dir(targetDir) {
-                    sh "${DOWNLOAD} -f 'best[height<=720]+bestaudio' '${url}'"
-                    // Now grab any that didn't match the previous command due to format... could do this only if an error occurs
-                    sh "${DOWNLOAD} '${url}'"
+                    sh(returnStatus: true, script: "${DOWNLOAD} ${extraOptions} -f 'best[height<=720]+bestaudio' '${url}'")
+
+                    if (extraOptions.isEmpty()) {
+                        // Now grab any that didn't match the previous command due to format... could do this only if an error occurs
+                        sh "${DOWNLOAD} '${url}'"
+                    }
                 }
             }
         } catch (err) {
