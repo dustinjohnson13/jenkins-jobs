@@ -3,9 +3,12 @@ import groovy.json.JsonOutput
 
 stage('Run') {
     node {
+        def EMAIL_ADDRESS = "${env.EMAIL}".toString()
+        def BUILD = "${env.JOB_NAME} - #${env.BUILD_NUMBER}".toString()
         def YOUTUBE = 'https://www.youtube.com'
         def BASE_DIR = '/data/archives/video/sharing'
         def DOWNLOAD = 'youtube-dl --ignore-errors --download-archive downloaded.txt'
+        def MAX_DOWNLOADS = '--max-downloads'
 
         def URLS_BY_DIR = [
                 "hickok45"               : "${YOUTUBE}/user/hickok45/videos",
@@ -23,38 +26,52 @@ stage('Run') {
         ]
 
         def EXTRA_OPTIONS = [
-                "hickok45": '--max-downloads 25'
+                "hickok45": "${MAX_DOWNLOADS} 25"
         ]
 
+        def email = null
         currentBuild.result = "SUCCESS"
+
+        def failed = [] as Set
 
         try {
             URLS_BY_DIR.each { directory, url ->
                 def targetDir = "${BASE_DIR}/${directory}".toString()
                 def extraOptions = EXTRA_OPTIONS.get(directory, '')
+                def downloadsLimited = extraOptions.contains(MAX_DOWNLOADS)
 
                 dir(targetDir) {
-                    sh(returnStatus: true, script: "${DOWNLOAD} ${extraOptions} -f 'best[height<=720]+bestaudio' '${url}'")
+                    def status = sh(returnStatus: true, script: "${DOWNLOAD} ${extraOptions} -f 'best[height<=720]+bestaudio' '${url}'")
+                    if (!(status == 0 || downloadsLimited)) {
+                        failed += directory
+                    }
 
-                    if (extraOptions.isEmpty()) {
+                    if (!downloadsLimited) {
                         // Now grab any that didn't match the previous command due to format... could do this only if an error occurs
-                        sh "${DOWNLOAD} '${url}'"
+                        status = sh(returnStatus: true, script: "${DOWNLOAD} '${url}'")
+                        if (status != 0) {
+                            failed += directory
+                        }
                     }
                 }
+            }
+
+            if (!failed.isEmpty()) {
+                email = [to: EMAIL_ADDRESS, from: EMAIL_ADDRESS, subject: "$BUILD partial failure!", body: "Failed: ${failed}! See ${env.BUILD_URL} for details."]
             }
         } catch (err) {
             currentBuild.result = "FAILURE"
 
-            def build = "${env.JOB_NAME} - #${env.BUILD_NUMBER}".toString()
-            def emailAddress = "${env.EMAIL}".toString()
-
-            def email = [to: emailAddress, from: emailAddress, subject: "$build failed!", body: "${env.JOB_NAME} failed! See ${env.BUILD_URL} for details."]
-            def notify = [email: email]
-
-            def cmd = env.NOTIFY_COMMAND + " -d '${JsonOutput.toJson(notify)}'"
-            sh cmd
+            email = [to: EMAIL_ADDRESS, from: EMAIL_ADDRESS, subject: "$BUILD failed!", body: "${env.JOB_NAME} failed! See ${env.BUILD_URL} for details."]
 
             throw err
+        } finally {
+            if (email) {
+                def notify = [email: email]
+
+                def cmd = env.NOTIFY_COMMAND + " -d '${JsonOutput.toJson(notify)}'"
+                sh cmd
+            }
         }
     }
 }
