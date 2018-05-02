@@ -22,6 +22,7 @@ stage('Run') {
                 "active_self_protection" : "${YOUTUBE}/channel/UCsE_m2z1NrvF2ImeNWh84mw/videos",
                 "johnnys_reloading_bench": "${YOUTUBE}/channel/UCQ7ZytKrmCQnRp9LXXxinJQ/videos",
                 "military_arms_channel"  : "${YOUTUBE}/user/Sturmgewehre/videos",
+                "flair"                  : "${YOUTUBE}/user/THEBASSB0YS/videos",
                 //'/data/archives/video/education/engineering_explained':'https://www.youtube.com/channel/UClqhvGmHcvWL9w3R48t9QXQ',
         ]
 
