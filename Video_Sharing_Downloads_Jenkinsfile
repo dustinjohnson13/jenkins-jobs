@@ -23,6 +23,7 @@ stage('Run') {
                 "johnnys_reloading_bench": "${YOUTUBE}/channel/UCQ7ZytKrmCQnRp9LXXxinJQ/videos",
                 "military_arms_channel"  : "${YOUTUBE}/user/Sturmgewehre/videos",
                 "flair"                  : "${YOUTUBE}/user/THEBASSB0YS/videos",
+                "jocko_podcast"          : "${YOUTUBE}/channel/UCkqcY4CAuBFNFho6JgygCnA/videos",
                 //'/data/archives/video/education/engineering_explained':'https://www.youtube.com/channel/UClqhvGmHcvWL9w3R48t9QXQ',
         ]
 
