@@ -8,7 +8,6 @@ stage('Run') {
         def build = "${env.JOB_NAME} - #${env.BUILD_NUMBER}".toString()
 
         def email = [to: "${env.EMAIL}", from: "${env.EMAIL}"]
-        def notify = [email: email]
 
         currentBuild.result = "SUCCESS"
 
@@ -26,8 +25,7 @@ stage('Run') {
             error = err
         }
 
-        def cmd = env.NOTIFY_COMMAND + " -d '${JsonOutput.toJson(notify)}'"
-        sh cmd
+        emailext body: email.body, recipientProviders: [[$class: 'DevelopersRecipientProvider']], subject: email.subject, to: "${env.EMAIL}"
 
         if (error) {
             throw error
