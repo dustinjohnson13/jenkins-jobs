@@ -24,6 +24,7 @@ stage('Run') {
                 "military_arms_channel"  : "${YOUTUBE}/user/Sturmgewehre/videos",
                 "flair"                  : "${YOUTUBE}/user/THEBASSB0YS/videos",
                 "jocko_podcast"          : "${YOUTUBE}/channel/UCkqcY4CAuBFNFho6JgygCnA/videos",
+                "ayrshire_grappler"      : "${YOUTUBE}/channel/UCNHEzJeEdSsf09A5uVPlXZw/videos",
                 //'/data/archives/video/education/engineering_explained':'https://www.youtube.com/channel/UClqhvGmHcvWL9w3R48t9QXQ',
         ]
 
