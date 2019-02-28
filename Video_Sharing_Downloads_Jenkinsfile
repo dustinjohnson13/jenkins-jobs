@@ -28,10 +28,13 @@ stage('Run') {
                 "bernardo_faria_bjj"     : "${YOUTUBE}/user/bernardorochajf/videos",
                 "georgi_ivanov"          : "${YOUTUBE}/channel/UCBsLsB9acS5aXDdsP1pJx2Q/videos",
                 "chewybjj"               : "${YOUTUBE}/user/chewybjj/videos",
+                "powerfuljre"            : "${YOUTUBE}/user/PowerfulJRE/videos",
                 //'/data/archives/video/education/engineering_explained':'https://www.youtube.com/channel/UClqhvGmHcvWL9w3R48t9QXQ',
         ]
 
-        def EXTRA_OPTIONS = [:]
+        def EXTRA_OPTIONS = [
+                "powerfuljre": "${MAX_DOWNLOADS} 30"
+        ]
 
         def email = null
         currentBuild.result = "SUCCESS"
