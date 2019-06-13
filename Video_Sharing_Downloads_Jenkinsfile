@@ -32,9 +32,7 @@ stage('Run') {
                 //'/data/archives/video/education/engineering_explained':'https://www.youtube.com/channel/UClqhvGmHcvWL9w3R48t9QXQ',
         ]
 
-        def EXTRA_OPTIONS = [
-                "powerfuljre": "${MAX_DOWNLOADS} 30"
-        ]
+        def EXTRA_OPTIONS = [:]
 
         def email = null
         currentBuild.result = "SUCCESS"
