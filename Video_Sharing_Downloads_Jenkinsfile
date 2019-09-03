@@ -29,8 +29,8 @@ stage('Run') {
                 "georgi_ivanov"          : "${YOUTUBE}/channel/UCBsLsB9acS5aXDdsP1pJx2Q/videos",
                 "chewybjj"               : "${YOUTUBE}/user/chewybjj/videos",
                 "powerfuljre"            : "${YOUTUBE}/user/PowerfulJRE/videos",
-                "starling_and_stone"     : "${YOUTUBE}/user/SterlingandStone/videos"
-                //'/data/archives/video/education/engineering_explained':'https://www.youtube.com/channel/UClqhvGmHcvWL9w3R48t9QXQ',
+                "starling_and_stone"     : "${YOUTUBE}/user/SterlingandStone/videos",
+                "the_career_author"      : "${YOUTUBE}/channel/UCmIYVcr1UdWgSvYpb3Ol3xg"
         ]
 
         def EXTRA_OPTIONS = [
