@@ -11,26 +11,27 @@ stage('Run') {
         def MAX_DOWNLOADS = '--max-downloads'
 
         def URLS_BY_DIR = [
-                "hickok45"               : "${YOUTUBE}/user/hickok45/videos",
-                "south_main_auto_repair" : "${YOUTUBE}/channel/UCtAGzm9e_liY7ko1PBhzTHA",
-                "FordTechMakuloco"       : "${YOUTUBE}/channel/UCN467fmgLLlk98JddJLL51w",
-                "briansmobile1"          : "${YOUTUBE}/channel/UCD34eNpI8IfqPFhlOYcLt6Q",
-                "afrotechmods"           : "${YOUTUBE}/user/Afrotechmods",
-                "ukspreadbetting"        : "${YOUTUBE}/user/ukspreadbetting",
-                "demolition_ranch"       : "${YOUTUBE}/user/DemolitionRanch/videos",
-                "iraqveteran8888"        : "${YOUTUBE}/user/Iraqveteran8888/videos",
                 "active_self_protection" : "${YOUTUBE}/channel/UCsE_m2z1NrvF2ImeNWh84mw/videos",
-                "johnnys_reloading_bench": "${YOUTUBE}/channel/UCQ7ZytKrmCQnRp9LXXxinJQ/videos",
-                "military_arms_channel"  : "${YOUTUBE}/user/Sturmgewehre/videos",
-                "flair"                  : "${YOUTUBE}/user/THEBASSB0YS/videos",
-                "jocko_podcast"          : "${YOUTUBE}/channel/UCkqcY4CAuBFNFho6JgygCnA/videos",
+                "afrotechmods"           : "${YOUTUBE}/user/Afrotechmods",
                 "ayrshire_grappler"      : "${YOUTUBE}/channel/UCNHEzJeEdSsf09A5uVPlXZw/videos",
                 "bernardo_faria_bjj"     : "${YOUTUBE}/user/bernardorochajf/videos",
-                "georgi_ivanov"          : "${YOUTUBE}/channel/UCBsLsB9acS5aXDdsP1pJx2Q/videos",
+                "briansmobile1"          : "${YOUTUBE}/channel/UCD34eNpI8IfqPFhlOYcLt6Q",
                 "chewybjj"               : "${YOUTUBE}/user/chewybjj/videos",
+                "demolition_ranch"       : "${YOUTUBE}/user/DemolitionRanch/videos",
+                "FordTechMakuloco"       : "${YOUTUBE}/channel/UCN467fmgLLlk98JddJLL51w",
+                "hickok45"               : "${YOUTUBE}/user/hickok45/videos",
+                "iraqveteran8888"        : "${YOUTUBE}/user/Iraqveteran8888/videos",
+                "flair"                  : "${YOUTUBE}/user/THEBASSB0YS/videos",
+                "georgi_ivanov"          : "${YOUTUBE}/channel/UCBsLsB9acS5aXDdsP1pJx2Q/videos",
+                "jocko_podcast"          : "${YOUTUBE}/channel/UCkqcY4CAuBFNFho6JgygCnA/videos",
+                "johnnys_reloading_bench": "${YOUTUBE}/channel/UCQ7ZytKrmCQnRp9LXXxinJQ/videos",
+                "military_arms_channel"  : "${YOUTUBE}/user/Sturmgewehre/videos",
+                "nick_stephenson"        : "${YOUTUBE}/user/iyurertyuioyue/videos",
                 "powerfuljre"            : "${YOUTUBE}/user/PowerfulJRE/videos",
+                "south_main_auto_repair" : "${YOUTUBE}/channel/UCtAGzm9e_liY7ko1PBhzTHA",
                 "starling_and_stone"     : "${YOUTUBE}/user/SterlingandStone/videos",
-                "the_career_author"      : "${YOUTUBE}/channel/UCmIYVcr1UdWgSvYpb3Ol3xg"
+                "the_career_author"      : "${YOUTUBE}/channel/UCmIYVcr1UdWgSvYpb3Ol3xg",
+                "ukspreadbetting"        : "${YOUTUBE}/user/ukspreadbetting"
         ]
 
         def EXTRA_OPTIONS = [
