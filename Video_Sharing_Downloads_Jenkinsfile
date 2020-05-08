@@ -7,36 +7,17 @@ stage('Run') {
         def BUILD = "${env.JOB_NAME} - #${env.BUILD_NUMBER}".toString()
         def YOUTUBE = 'https://www.youtube.com'
         def BASE_DIR = '/data/archives/video/sharing'
-        def DOWNLOAD = 'youtube-dl --ignore-errors --download-archive downloaded.txt'
+        def DOWNLOAD = 'youtube-dl --extract-audio --ignore-errors --download-archive downloaded.txt'
         def MAX_DOWNLOADS = '--max-downloads'
 
         def URLS_BY_DIR = [
-                "active_self_protection" : "${YOUTUBE}/channel/UCsE_m2z1NrvF2ImeNWh84mw/videos",
-                "afrotechmods"           : "${YOUTUBE}/user/Afrotechmods",
-                "ayrshire_grappler"      : "${YOUTUBE}/channel/UCNHEzJeEdSsf09A5uVPlXZw/videos",
-                "bernardo_faria_bjj"     : "${YOUTUBE}/user/bernardorochajf/videos",
-                "briansmobile1"          : "${YOUTUBE}/channel/UCD34eNpI8IfqPFhlOYcLt6Q",
-                "chewybjj"               : "${YOUTUBE}/user/chewybjj/videos",
-                "demolition_ranch"       : "${YOUTUBE}/user/DemolitionRanch/videos",
-                "FordTechMakuloco"       : "${YOUTUBE}/channel/UCN467fmgLLlk98JddJLL51w",
-                "hickok45"               : "${YOUTUBE}/user/hickok45/videos",
-                "iraqveteran8888"        : "${YOUTUBE}/user/Iraqveteran8888/videos",
-                "flair"                  : "${YOUTUBE}/user/THEBASSB0YS/videos",
-                "georgi_ivanov"          : "${YOUTUBE}/channel/UCBsLsB9acS5aXDdsP1pJx2Q/videos",
                 "jocko_podcast"          : "${YOUTUBE}/channel/UCkqcY4CAuBFNFho6JgygCnA/videos",
-                "johnnys_reloading_bench": "${YOUTUBE}/channel/UCQ7ZytKrmCQnRp9LXXxinJQ/videos",
-                "military_arms_channel"  : "${YOUTUBE}/user/Sturmgewehre/videos",
-                "nick_stephenson"        : "${YOUTUBE}/user/iyurertyuioyue/videos",
                 "powerfuljre"            : "${YOUTUBE}/user/PowerfulJRE/videos",
-                "south_main_auto_repair" : "${YOUTUBE}/channel/UCtAGzm9e_liY7ko1PBhzTHA",
                 "starling_and_stone"     : "${YOUTUBE}/user/SterlingandStone/videos",
-                "the_career_author"      : "${YOUTUBE}/channel/UCmIYVcr1UdWgSvYpb3Ol3xg",
-                "ukspreadbetting"        : "${YOUTUBE}/user/ukspreadbetting"
+                "the_career_author"      : "${YOUTUBE}/channel/UCmIYVcr1UdWgSvYpb3Ol3xg"
         ]
 
-        def EXTRA_OPTIONS = [
-                "starling_and_stone": "${MAX_DOWNLOADS} 30"
-        ]
+        def EXTRA_OPTIONS = [:]
 
         def email = null
         currentBuild.result = "SUCCESS"
