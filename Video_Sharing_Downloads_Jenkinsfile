@@ -7,13 +7,13 @@ stage('Run') {
         def BUILD = "${env.JOB_NAME} - #${env.BUILD_NUMBER}".toString()
         def YOUTUBE = 'https://www.youtube.com'
         def BASE_DIR = '/data/archives/video/sharing'
-        def DOWNLOAD = 'youtube-dl --extract-audio --ignore-errors --download-archive downloaded.txt'
+        def DOWNLOAD = 'youtube-dl --extract-audio --audio-format mp3 --ignore-errors --download-archive downloaded.txt'
         def MAX_DOWNLOADS = '--max-downloads'
 
         def URLS_BY_DIR = [
                 "jocko_podcast"          : "${YOUTUBE}/channel/UCkqcY4CAuBFNFho6JgygCnA/videos",
                 "powerfuljre"            : "${YOUTUBE}/user/PowerfulJRE/videos",
-                "starling_and_stone"     : "${YOUTUBE}/user/SterlingandStone/videos",
+                "sterling_and_stone"     : "${YOUTUBE}/user/SterlingandStone/videos",
                 "the_career_author"      : "${YOUTUBE}/channel/UCmIYVcr1UdWgSvYpb3Ol3xg"
         ]
 
@@ -31,17 +31,9 @@ stage('Run') {
                 def downloadsLimited = extraOptions.contains(MAX_DOWNLOADS)
 
                 dir(targetDir) {
-                    def status = sh(returnStatus: true, script: "${DOWNLOAD} ${extraOptions} -f 'best[height<=720]+bestaudio' '${url}'")
+                    def status = sh(returnStatus: true, script: "${DOWNLOAD} ${extraOptions} '${url}'")
                     if (!(status == 0 || downloadsLimited)) {
                         failed += directory
-                    }
-
-                    if (!downloadsLimited) {
-                        // Now grab any that didn't match the previous command due to format... could do this only if an error occurs
-                        status = sh(returnStatus: true, script: "${DOWNLOAD} '${url}'")
-                        if (status != 0) {
-                            failed += directory
-                        }
                     }
                 }
             }
