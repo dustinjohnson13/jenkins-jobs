@@ -14,7 +14,7 @@ stage('Run') {
                 "jocko_podcast"          : "${YOUTUBE}/channel/UCkqcY4CAuBFNFho6JgygCnA/videos",
                 "powerfuljre"            : "${YOUTUBE}/user/PowerfulJRE/videos",
                 "sterling_and_stone"     : "${YOUTUBE}/user/SterlingandStone/videos",
-                "the_career_author"      : "${YOUTUBE}/channel/UCmIYVcr1UdWgSvYpb3Ol3xg"
+                "JordanPetersonVideos"   : "${YOUTUBE}/channel/UCL_f53ZEJxp8TtlOkHwMV9Q"
         ]
 
         def EXTRA_OPTIONS = [:]
